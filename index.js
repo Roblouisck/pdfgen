@@ -1,5 +1,5 @@
-var pdfgen = require('./pdfgen');
-var pdfGen = new pdfgen();
+var HtmlToPdf = require('./htmlToPdf');
+var htmlToPdf = new HtmlToPdf();
 
 var fs = require('fs');
 
@@ -131,28 +131,35 @@ const table2 = {
 }
 
 
-const guests = [guest1, guest2, guest3]
-const tables = [table1, table2, table1]
+const guests = [guest1, guest2, guest3, guest1, guest2, guest3]
+const tables = [table1, table2, table1, table1, table2, table1]
 
 const tableNames = tables.map(table => {
     return table.name
 })
 
 
-const document = {
-    html: fs.readFileSync('test.html', 'utf8'),
-    data: {
-        guests: guests,
-        tables: tables,
-        groupedGuests: pdfGen.groupGuestsToTables(guests, tableNames)
-    },
-    path: "./output.pdf"
-};
+async function getDoc(backgroundImage) {
+    const document = {
+        html: fs.readFileSync('test.html', 'utf8'),
+        data: {
+            guests: guests,
+            tables: tables,
+            groupedGuests: htmlToPdf.groupGuestsToTables(guests, tableNames),
+            image: await htmlToPdf.file_to_base64(backgroundImage),
+            columns: 3
+        },
+        path: "./output.pdf"
+    };
+    return document
+}
 
-pdfGen.create_pdf_from_html(document)
-    .then(res => {
-        console.log(res)
-    })
-    .catch(error => {
-        console.error(error)
-    });
+getDoc('peet.jpg').then(document => {
+    htmlToPdf.create_pdf_from_html(document)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(error => {
+            console.error(error)
+        });
+})

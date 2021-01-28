@@ -7,22 +7,27 @@
     <link rel="stylesheet" href="test.css">
 </head>
 
-<body id="body" style=" 
-    width: 60%;
+<body>
+    <div id="tableWrapper" style=" 
     margin: 0 auto;
+    display: table;
+    table-layout: fixed;
+    text-align: center;
+
 ">
-    {{#each groupedGuests}}
-    <table style=" 
+        {{#each groupedGuests}}
+        <table class="table" style=" 
         display: inline-block;
         width: fit-content;
         vertical-align: top;
         margin-bottom: 1rem;
         font-family: arial, sans-serif;
         border-collapse: collapse;
-        width: 30%;
+        width: 20rem;
+        margin: 5px;
     ">
-        <tr>
-            <th style="
+            <tr>
+                <th style="
                 background: rgba(94, 216, 212, 1);
                 color: white;
                 border: 1px solid rgba(94, 216, 212, 1);
@@ -31,35 +36,55 @@
                 font-size: 20px;
                 text-align: center;
             ">{{this.0.table.name}}</th>
-        </tr>
+            </tr>
 
-        {{#each this}}
+            {{#each this}}
 
-        {{#if (oddEven @index)}}
-        <tr>
-            <td style="    
+            {{#if (oddEven @index)}}
+            <tr>
+                <td style="    
                 width: 30%;
                 border: 1px solid rgba(94, 216, 212, 1);
                 background-color: rgba(94, 216, 212, 0.2);
                 text-align: left;
                 padding: 8px;
             ">{{first_name}}</td>
-        </tr>
+            </tr>
 
-        {{else}}
-        <tr>
-            <td style="    
+            {{else}}
+            <tr>
+                <td style="    
                 width: 30%;
                 border: 1px solid rgba(94, 216, 212, 1);
                 text-align: left;
                 padding: 8px;
             ">{{first_name}}</td>
-        </tr>
-        {{/if}}
-        {{/each}}
+            </tr>
+            {{/if}}
+            {{/each}}
 
-    </table>
-    {{/each}}
+        </table>
+        {{/each}}
+    </div>
+
 </body>
+<script>
+    const columns = Number('{{columns}}')
+    const tableWrapper = document.getElementById('tableWrapper')
+
+    switch (columns) {
+        case 1:
+            tableWrapper.style.width = '21rem'
+            break;
+        case 2:
+            tableWrapper.style.width = '42rem'
+            break;
+        case 3:
+            tableWrapper.style.width = '62rem'
+            break;
+        default:
+        // code block
+    }
+</script>
 
 </html>
