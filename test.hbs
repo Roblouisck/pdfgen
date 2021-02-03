@@ -4,7 +4,12 @@
 <head>
     <mate charest="utf-8" />
     <title>Hello world!</title>
-    <link rel="stylesheet" href="test.css">
+    <link rel="stylesheet" href="public/test.css">
+    {{!--
+    <script type="text/javascript" src="public/handleColumns.js">
+
+    </script> --}}
+
 </head>
 
 <style>
@@ -39,7 +44,7 @@
     zoom: 0.75;
 ">
 
-    <div class="title" style="
+    <div class="title" id="title" style="
         text-align: center;
         font-size: 52px;
         color: white;
@@ -92,29 +97,37 @@
         {{/each}}
     </table>
     {{/each}}
-</body>
-<script>
-    const columns = Number('{{columns}}')
-    const tables = Array.from(document.getElementsByClassName('table'))
 
-    const body = document.getElementById('body')
-    tables.forEach(table => {
-        switch (columns) {
-            case 1:
-                table.style.border = '104mm'
-                body.style.border = '5px solid blue'
-                break;
-            case 2:
-                table.style.width = '84mm'
-                break;
-            case 3:
-                table.style.width = '54mm'
-                break;
-            default:
+
+    {{!--
+    <script type="text/javascript" src="public/handleColumns.js">
+
+    </script> --}}
+
+    <script>
+        const columns = Number('{{ columns }}')
+
+        const tables = document.querySelectorAll('.table')
+        const tablesArray = Array.prototype.slice.call(tables);
+
+        for (var index = 0; index < tablesArray.length; index++) {
+            const table = tablesArray[index];
+
+            switch (columns) {
+                case 1:
+                    table.style.width = '104mm'
+                    break;
+                case 2:
+                    table.style.width = '84mm'
+                    break;
+                case 3:
+                    table.style.width = '54mm'
+                    break;
+                default:
+            }
         }
-    })
 
-
-</script>
+    </script>
+</body>
 
 </html>

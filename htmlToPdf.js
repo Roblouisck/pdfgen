@@ -8,6 +8,7 @@ class htmlToPdf {
             format: "A4",
             orientation: "portrait",
             border: 0,
+            base: 'file:///Users/mandaris/Desktop/Programming Projects/pdf-creator/public',
         }
         Handlebars.registerHelper("oddEven", function (index) {
             if (index % 2 !== 0) return true

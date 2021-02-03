@@ -182,7 +182,7 @@ async function getDoc(cols, backgroundImage, guests) {
     return document
 }
 
-getDoc(1, 'wedding.jpg', guests).then(document => {
+getDoc(2, 'wedding.jpg', guests).then(document => {
     htmlToPdf.create_pdf_from_html(document)
         .then(res => {
             console.log(res)
