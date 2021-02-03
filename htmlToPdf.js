@@ -5,26 +5,13 @@ var fs = require('fs');
 class htmlToPdf {
     constructor() {
         this.options = {
-            format: "A3",
-            orientation: "landscape",
-            border: "10mm",
-            "footer": {
-                "height": "28mm",
-                "contents": {
-                    first: 'Cover page',
-                    2: 'Second page', // Any page number is working. 1-based index
-                    default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-                    last: 'Last Page'
-                }
-            }
+            format: "A4",
+            orientation: "portrait",
+            border: 0,
         }
-        this.columns = 1
         Handlebars.registerHelper("oddEven", function (index) {
             if (index % 2 !== 0) return true
         });
-        // Handlebars.registerHelper('json', function (content) {
-        //     return JSON.stringify(content);
-        // });
     }
 
     create_pdf_from_html(document) {
@@ -48,17 +35,13 @@ class htmlToPdf {
         });
     }
 
-    groupGuestsToTables(guests, tableNames) {
-        const output = tableNames.map((table) => {
-            const tableGuests = guests.map((guest) => {
-                if (guest.table.name.includes(table)) return guest
-            })
-            return {
-                [table]: tableGuests
-            }
+    groupGuestsToTables(guests) {
+        const updatedGuests = guests.filter(guest => guest.table).map(guest => {
+            return { ...guest, table_id: guest.table.id }
         })
-        return output.map((tables, index) => {
-            return tables[tableNames[index]].filter(Boolean)
+
+        return updatedGuests.unique('table_id').map(guest => {
+            return guests.filter(thisGuest => thisGuest.table.id === guest.table_id)
         })
     }
 

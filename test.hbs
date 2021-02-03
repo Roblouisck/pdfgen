@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <mate charest="utf-8" />
+    <title>Hello world!</title>
+    <link rel="stylesheet" href="test.css">
+</head>
+
+<style>
+    @font-face {
+        font-family: 'DM-Serif-Italic';
+        src: url('file:///Users/mandaris/Desktop/Programming Projects/pdf-creator/fonts/DMSerif-Italic.ttf') format('truetype');
+    }
+
+    @font-face {
+        font-family: 'Montserrat-Regular';
+        src: url('file:///Users/mandaris/Desktop/Programming Projects/pdf-creator/fonts/Montserrat-Regular.ttf') format('truetype');
+    }
+
+    @font-face {
+        font-family: 'Jost-SemiBold';
+        src: url('file:///Users/mandaris/Desktop/Programming Projects/pdf-creator/fonts/Jost-SemiBold.ttf') format('truetype');
+    }
+    }
+</style>
+
+<body id="body" style=" 
+    margin: 0;
+    {{!-- background-image: url('data:image/png;base64, {{{image}}}'); --}}
+    background-color: grey;
+    background-size: auto 297mm;
+     background-position: center;
+     background-repeat: no-repeat;
+    text-align: center;
+    min-height: 100vh;
+    max-width:210mm;
+    height:297mm;
+    zoom: 0.75;
+">
+
+    <div class="title" style="
+        text-align: center;
+        font-size: 52px;
+        color: white;
+        font-family: 'DM-Serif-Italic';
+        padding: 4rem 0 3rem 0;
+        ">Alexis and Angel's Wedding</div>
+
+    {{!-- Styles on this may screw up page break, careful --}}
+    {{#each groupedGuests}}
+    <table class="table" style=" 
+        text-align: center;
+            display: inline-block;
+            width: fit-content;
+            vertical-align: top;
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 54mm;
+            {{!-- width: 84mm; --}}
+            {{!-- width: 104mm; --}}
+            margin: 1rem 1rem 3.5rem 1rem;
+            page-break-inside: avoid;
+    ">
+        <tr>
+            <th style=" 
+                   font-family: 'Jost-SemiBold';
+                    background: rgba(255, 255, 255, 0.2);
+                    color: white;
+                    text-align: left;
+                    padding: 10px 20px !important;
+                    font-size: 24px;
+                    text-align: center;
+                    border-radius: 3px;
+                    border-bottom: 15px solid transparent;
+                ">
+                {{this.0.table.name}}
+            </th>
+        </tr>
+        {{#each this}}
+        <tr>
+            <td style=" 
+                    width: 10rem;
+                    width: 30%;
+                    text-align: left;
+                    padding: 3px 0;
+                    color: white;
+                    font-family: 'Montserrat-Regular';
+                    font-size: 20px;
+                ">{{first_name}}</td>
+        </tr>
+        {{/each}}
+    </table>
+    {{/each}}
+</body>
+<script>
+    const columns = Number('{{columns}}')
+    const tables = Array.from(document.getElementsByClassName('table'))
+
+    const body = document.getElementById('body')
+    tables.forEach(table => {
+        switch (columns) {
+            case 1:
+                table.style.border = '104mm'
+                body.style.border = '5px solid blue'
+                break;
+            case 2:
+                table.style.width = '84mm'
+                break;
+            case 3:
+                table.style.width = '54mm'
+                break;
+            default:
+        }
+    })
+
+
+</script>
+
+</html>
