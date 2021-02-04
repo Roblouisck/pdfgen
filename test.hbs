@@ -5,11 +5,6 @@
     <mate charest="utf-8" />
     <title>Hello world!</title>
     <link rel="stylesheet" href="public/test.css">
-    {{!--
-    <script type="text/javascript" src="public/handleColumns.js">
-
-    </script> --}}
-
 </head>
 
 <style>
@@ -35,14 +30,24 @@
     {{!-- background-image: url('data:image/png;base64, {{{image}}}'); --}}
     background-color: grey;
     background-size: auto 297mm;
+    {{!-- height: 297mm; --}}
      background-position: center;
-     background-repeat: no-repeat;
+     background-repeat: repeat;
     text-align: center;
-    min-height: 100vh;
+    {{!-- min-height: 100vh; --}}
     max-width:210mm;
-    height:297mm;
     zoom: 0.75;
 ">
+
+    <div id="invisibleMeasure" style="
+    height: 297mm; 
+    width: 50mm; 
+    position: absolute;
+    background-color: red !important;
+    left: 10px;
+    top: 0;
+
+    "></div>
 
     <div class="title" id="title" style="
         text-align: center;
@@ -62,10 +67,9 @@
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 54mm;
-            {{!-- width: 84mm; --}}
-            {{!-- width: 104mm; --}}
             margin: 1rem 1rem 3.5rem 1rem;
             page-break-inside: avoid;
+            
     ">
         <tr>
             <th style=" 
@@ -92,22 +96,20 @@
                     color: white;
                     font-family: 'Montserrat-Regular';
                     font-size: 20px;
+                    padding-left: 7px;
                 ">{{first_name}}</td>
         </tr>
         {{/each}}
     </table>
     {{/each}}
 
-
-    {{!--
-    <script type="text/javascript" src="public/handleColumns.js">
-
-    </script> --}}
-
     <script>
         const columns = Number('{{ columns }}')
 
         const tables = document.querySelectorAll('.table')
+        const body = document.getElementById('body')
+        const invisible = document.getElementById('invisibleMeasure')
+
         const tablesArray = Array.prototype.slice.call(tables);
 
         for (var index = 0; index < tablesArray.length; index++) {
@@ -127,7 +129,25 @@
             }
         }
 
+        const bodyOriginal = document.body.getBoundingClientRect().height
+        // const newBodHeight = (body.clientHeight + (body.clientHeight % invisible.clientHeight)) + "px"
+        // body.style.height = body.clientHeight - (newBodHeight - body.clientHeight) + 'px'
+        // const space = window.innerHeight - body.offsetTop + body.offsetHeight
+
+        const remainingSpace = (body.clientHeight % invisible.clientHeight)
+        //body.style.height = body.clientHeight + (invisible.clientHeight - remainingSpace) + "px"
+
+
+        const newSpan = document.createElement('div')
+        newSpan.textContent =
+            "bodyOriginal:" + bodyOriginal +
+            ", body:" + body.clientHeight +
+            ", invisible:" + invisible.clientHeight +
+            ", remainingSpace:" + remainingSpace
+        document.body.insertBefore(newSpan)
+
     </script>
+
 </body>
 
 </html>

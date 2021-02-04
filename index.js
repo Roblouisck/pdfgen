@@ -156,9 +156,7 @@ const guest4 = {
 
 const guests = [
     guest1, guest2, guest3, guest4, guest1, guest2, guest3, guest1, guest2, guest3,
-    guest1, guest2, guest3, guest4, guest1, guest2, guest3, guest1, guest2, guest3,
-
-    guest1, guest2, guest3, guest4, guest1, guest2, guest3, guest1, guest2, guest3
+    guest1, guest2, guest3, guest4, guest1, guest2, guest3, guest1, guest2, guest3, guest3, guest3, guest4, guest4, guest4, guest1, guest2
 
 ].slice().map((guest, index) => {
     let g = { ...guest }
@@ -182,7 +180,7 @@ async function getDoc(cols, backgroundImage, guests) {
     return document
 }
 
-getDoc(2, 'wedding.jpg', guests).then(document => {
+getDoc(3, 'wedding.jpg', guests).then(document => {
     htmlToPdf.create_pdf_from_html(document)
         .then(res => {
             console.log(res)
